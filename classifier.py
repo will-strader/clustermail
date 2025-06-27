@@ -9,8 +9,7 @@ from sklearn.manifold import TSNE
 from sklearn.decomposition import TruncatedSVD 
 from sklearn.preprocessing import normalize 
 
-# email_clustering_pipeline.py
-# Part 1 of "How I used machine learning to classify emails and turn them into insights"
+# email_clustering_pipeline
 
 import numpy as np
 import pandas as pd
