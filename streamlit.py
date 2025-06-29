@@ -69,8 +69,18 @@ if run_search:
         st.info("No results found. Try a different query or cluster.")
     else:
         st.subheader(f"Top {len(results)} results for '{query}'" + (f" in cluster {cluster_id}" if cluster_id is not None else ""))
+        # Robust column selection: accept 'from_' or fallback to 'from'
+        preferred_cols = [
+            "similarity",
+            "from_",   # default column name from helpers
+            "from",    # fallback if CSV uses 'from'
+            "to",
+            "body",
+        ]
+        display_cols = [c for c in preferred_cols if c in results.columns]
+
         st.dataframe(
-            results[["similarity", "from_", "to", "body"]],
+            results[display_cols],
             use_container_width=True,
             height=600,
         )
