@@ -1,12 +1,11 @@
 """
-bert_hdbscan.py
 Semantic email clustering using Sentence Transformers + UMAP + HDBSCAN
 Part 2 of the email-insights pipeline.
 """
 
 import numpy as np
 import pandas as pd
-import umap
+import umap.umap_ as umap
 import hdbscan
 import matplotlib.pyplot as plt
 from sentence_transformers import SentenceTransformer
@@ -19,7 +18,7 @@ from preprocessing import (
 )
 
 # Data loading & parsing
-def load_and_parse(path: str = "data/split_emails.csv") -> pd.DataFrame:
+def load_and_parse(path: str = "data/emails.csv") -> pd.DataFrame:
     """Read raw CSV and return a cleaned DataFrame with FROM / TO / BODY fields."""
     raw = pd.read_csv(path)
     emails = pd.DataFrame(extract_email_fields(raw.message))
@@ -116,7 +115,7 @@ def main():
     emails["cluster"] = labels
     emails.to_csv("data/emails_with_clusters.csv", index=False)
     np.save("data/email_embeddings.npy", embeddings)
-    print("✅ Saved clustered dataset and embeddings to /data\n")
+    print("Saved clustered dataset and embeddings to /data\n")
 
 
 if __name__ == "__main__":

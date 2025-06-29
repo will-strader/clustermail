@@ -11,13 +11,6 @@ from sklearn.preprocessing import normalize
 
 # email_clustering_pipeline
 
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
 from classifier import extract_email_fields, top_features_by_cluster, plot_cluster_features
 
 # Load raw email data

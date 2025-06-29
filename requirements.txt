@@ -1,0 +1,17 @@
+# Numerical & Data
+numpy>=1.23,<2.0
+pandas>=2.2,<3.0
+scikit-learn>=1.4,<2.0
+
+# NLP model
+sentence-transformers>=2.6,<3.0
+torch>=2.2,<3.0
+
+# Clustering
+umap-learn>=0.5,<1.0
+hdbscan>=0.8,<1.0
+
+# Visualizations & Web UI
+matplotlib>=3.8,<4.0
+streamlit>=1.33,<2.0
+tqdm>=4.66,<5.0  # progress bars
