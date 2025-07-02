@@ -33,10 +33,7 @@ from botbuilder.core import (
 )
 from botbuilder.schema import Activity, ActivityTypes
 
-# -----------------------------------------------------------------------------
-# 1  Load credentials from env
-# -----------------------------------------------------------------------------
-
+# Load credentials from env
 APP_ID = os.getenv("MICROSOFT_APP_ID", "")
 APP_PW = os.getenv("MICROSOFT_APP_PASSWORD", "")
 if not (APP_ID and APP_PW):
@@ -47,10 +44,7 @@ if not (APP_ID and APP_PW):
 settings = BotFrameworkAdapterSettings(APP_ID, APP_PW)
 adapter = BotFrameworkAdapter(settings)
 
-# -----------------------------------------------------------------------------
-# 2  FastAPI app + Bot logic class
-# -----------------------------------------------------------------------------
-
+#  FastAPI app + Bot logic class
 app = FastAPI(title="Email Insight Teams Bot")
 
 
@@ -79,7 +73,7 @@ class EmailInsightBot:
             )
             return
 
-        # --- Call the existing semantic search helper ---
+        # Call the existing semantic search helper
         df = ss.search_api(query=query, top_k=top, cluster_id=cluster)
         if df.empty:
             await turn.send_activity("No results found.")
