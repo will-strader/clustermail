@@ -40,6 +40,46 @@ def search(query_vec: np.ndarray, embeddings: np.ndarray, top_k: int = 20):
     top_idx = sims.argsort()[::-1][:top_k]
     return top_idx, sims[top_idx]
 
+
+# Public helper so other modules (e.g. Teams bot, Streamlit) can call
+# the same search logic without spinning up the CLI.
+def search_api(query: str, top_k: int = 20, cluster_id: int | None = None,
+    *, 
+    model_name: str = MODEL_NAME, ) -> pd.DataFrame:
+    """
+    Return a DataFrame of the top‑k most similar emails.
+
+    Parameters:
+    query : str
+        The search phrase (can be empty when filtering solely by cluster).
+    top_k : int
+        Number of results to return.
+    cluster_id : int | None
+        If given, restrict the search to a single semantic cluster.
+    model_name : str
+        SBERT model to encode the query (defaults to the one used offline).
+
+    Returns:
+    pd.DataFrame
+        DataFrame sorted by descending cosine similarity with a
+        'similarity' column (float).
+    """
+    embeddings = load_embeddings()
+    df_emails = load_emails()
+
+    # Optional cluster filter
+    if cluster_id is not None:
+        mask = df_emails["cluster"] == cluster_id
+        embeddings = embeddings[mask]
+        df_emails = df_emails[mask].reset_index(drop=True)
+
+    q_vec = encode_query(query or "", model_name=model_name)
+    idx, sims = search(q_vec, embeddings, top_k=top_k)
+
+    results = df_emails.iloc[idx].copy()
+    results.insert(0, "similarity", sims)
+    return results
+
 # Main CLI
 def main():
     parser = argparse.ArgumentParser(description="Semantic email search via SBERT embeddings")
@@ -52,7 +92,7 @@ def main():
     )
     args = parser.parse_args()
 
-    print("🔍 Loading data ...")
+    print("Loading data...")
     embeddings = load_embeddings()
     df_emails = load_emails()
 

@@ -10,6 +10,7 @@ torch>=2.2,<3.0
 # Clustering
 umap-learn>=0.5,<1.0
 hdbscan>=0.8,<1.0
+hdbscan==0.8.35
 
 # Visualizations & Web UI
 matplotlib>=3.8,<4.0
